@@ -1,0 +1,67 @@
+# Author: George 
+
+# Import Statements
+
+import pandas as pd
+import numpy as np
+#import yfinance as yf
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+
+
+# Variable Definitions
+
+#ticker = ["AAPL", "BA", "KO", "IBM", "DIS", "MSFT"]
+
+# Main
+
+print("let's go")
+print("")
+
+#yf.download("AAPL", start = "01/01/2010", end = "12/31/2021")
+
+stocks = pd.read_csv("stocks.csv", header = [0, 1], index_col = [0], parse_dates = [0])
+
+close = stocks.loc[:, "Close"].copy()
+
+aapl = close.AAPL.copy().to_frame()
+
+#print(aapl.head())
+
+#aapl["lag1"] = aapl.shift(periods = 1)
+#aapl["Diff"] = aapl.AAPL.sub(aapl.lag1)
+#aapl["pct_change"] = aapl.AAPL.div(aapl.lag1).sub(1).mul(100)
+#aapl["Diff2"] = aapl.AAPL.diff(periods = 1)
+#aapl["pct_change2"] = aapl.AAPL.pct_change(periods = 1).mul(100)
+
+ret = aapl.pct_change().dropna()
+print(ret)
+
+daily_mean_ret = ret.mean()
+daily_var_ret = ret.var()
+daily_std_ret = np.sqrt(ret.var())
+
+print("Mean")
+print(daily_mean_ret)
+print("Variance")
+print(daily_var_ret)
+print("Standard Deviation")
+print(daily_std_ret)
+print("")
+
+ann_mean_ret = ret.mean() * 252  # 252 business days per year
+print("Annual Mean Return")
+print(ann_mean_ret)
+
+ann_var_ret = ret.var() * 252
+print("Annual Variance of Daily Returns")
+print(ann_var_ret)
+
+ann_std_ret = np.sqrt(ann_var_ret)
+print("Annual Standard Deviation of Daily Returns")
+print(ann_std_ret)
+
+print("")
+print("all done")
+
